@@ -162,3 +162,25 @@ body {
     box-shadow: none;
     transform: translateY(4px);
 }
+@media screen and (max-width: 375px) {
+    .buttons button {
+        width: 50px;
+        height: 50px;
+        font-size: 30px;
+    }
+    .buttons .rounded-btn {
+        width: 50px;
+        height: 50px;
+    }
+    .buttons .ac {
+        font-size: 20px;
+    }
+    .buttons .ce {
+        font-size: 20px;
+    
+    }
+    .mid-2 .mid-2-item-2 input{
+        width: 80px;
+        
+    }
+}
