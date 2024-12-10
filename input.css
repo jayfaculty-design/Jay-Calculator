@@ -44,6 +44,9 @@ body {
     outline: none;
     font-family: 'digital-7', sans-serif;
     color: #466193;
+    box-sizing: border-box;
+    overflow-x: auto;
+    white-space: nowrap;
 }
 .display input::placeholder {
     color: #466193;
