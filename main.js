@@ -37,6 +37,7 @@ function calculate() {
   let currentNumber = "";
   let currentOperator = "";
   let previousNumber = "";
+  let result = null;
 
   // capturing the numbers
   displayNum((clicked) => {
@@ -47,46 +48,72 @@ function calculate() {
   // capturing operator
   displayOperator((clicked) => {
     if (currentNumber) {
-      // save the first number
-      previousNumber = currentNumber;
-      currentOperator = clicked; // capture the operator
-      currentNumber = ""; // reset for the next number
+      if (result === null) {
+        result = parseFloat(currentNumber);
+      } else if (currentOperator) {
+        const num = parseFloat(currentNumber);
+        switch (currentOperator) {
+          case "+":
+            result += num;
+            break;
+          case "-":
+            result -= num;
+            break;
+          case "×":
+            result *= num;
+            break;
+          case "%":
+            result = result % num;
+            break;
+          case "÷":
+            result = result / num;
+            break;
+          default:
+            result = "Invalid Operation";
+        }
+      }
+      currentOperator = clicked;
+      currentNumber = "";
+      displayScreen.value = `${result} ${currentOperator}`;
     }
-    displayScreen.value += `${clicked}`;
   });
 
   evaluateBtn.addEventListener("click", () => {
-    if (currentOperator && previousNumber && currentNumber) {
-      const num1 = parseFloat(previousNumber);
-      const num2 = parseFloat(currentNumber);
-      let result;
+    if (currentNumber && currentOperator) {
+      const num = parseFloat(currentNumber);
 
       switch (currentOperator) {
         case "+":
-          result = num1 + num2;
+          result += num;
           break;
         case "-":
-          result = num1 - num2;
+          result -= num;
           break;
         case "×":
-          result = num1 * num2;
+          result *= num;
           break;
         case "%":
-          result = num1 % num2;
+          result %= num;
           break;
         case "÷":
-          result = num2 !== 0 ? num1 / num2 : "Error";
+          result = num !== 0 ? result / num : "Error";
           break;
         default:
-          result = "Invalid Operation";
+          break;
       }
 
       displayScreen.value = result;
       //reset them after displaying the result
-      currentNumber = ""; //
-      previousNumber = "";
       currentNumber = "";
+      currentOperator = "";
     }
+  });
+
+  resetScreen.addEventListener("click", () => {
+    currentNumber = "";
+    currentOperator = "";
+    result = null;
+    displayScreen.value = "";
   });
 }
 
@@ -96,9 +123,4 @@ calculate();
 deleteBtn.addEventListener("click", () => {
   const value = displayScreen.value;
   displayScreen.value = value.slice(0, -1);
-});
-
-//Reset button
-resetScreen.addEventListener("click", () => {
-  displayScreen.value = "";
 });
